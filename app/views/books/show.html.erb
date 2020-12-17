@@ -4,7 +4,7 @@
 <div class="container px5 px-sm-0">
   <div class="row">
 
-    <%= render 'users/info', user: @user, book: @book %>
+    <%= render 'users/info', user: @user, book: @newbook %>
       <div class="col-md-8 offset-md-1">
         <h2>Book detail</h2>
         <table class="table">
@@ -12,11 +12,11 @@
             <tr>
               <th>
                 <% if @book.user.profile_image.present? %>
-                <%= image_tag attachment_url(@book.user, :profile_image, :fill, 150, 150, format: "jpg") %>
+                <%= link_to image_tag(attachment_url(@book.user, :profile_image, :fill, 150, 150, format: "jpg")), user_path(@book.user_id) %>
                 <% else %>
-                <%= image_tag('no_image.jpg') %>
+                <%= link_to image_tag('no_image.jpg'), user_path(@book.user_id) %>
                 <% end %>
-                  <p><%= link_to @user.name, user_path(current_user.id) %></p>
+                  <p><%= link_to @user.name, user_path(@book.user_id) %></p>
               </th>
               <th><%= link_to @book.title, book_path(@book) %></th>
               <th><%= @book.body %></th>

@@ -1,5 +1,6 @@
 class BooksController < ApplicationController
   before_action :authenticate_user!
+  before_action :ensure_correct_user, :only => [:edit, :update]
 
   def index
     @books = Book.all
@@ -23,7 +24,8 @@ class BooksController < ApplicationController
 
   def show
     @book = Book.find(params[:id])
-    @user = User.find(current_user.id)
+    @newbook = Book.new
+    @user = @book.user
   end
 
   def edit
@@ -44,6 +46,14 @@ class BooksController < ApplicationController
     book = Book.find(params[:id])
     book.destroy
     redirect_to books_path
+  end
+
+  def ensure_correct_user
+    @post = Book.find_by(id:params[:id])
+    if @post.user_id != current_user.id
+      flash[:notice] = "権限がありません"
+      redirect_to books_path
+    end
   end
 
   private

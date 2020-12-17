@@ -21,9 +21,13 @@
         <tbody>
           <% @books.each do |book| %>
             <tr>
-              <td><% if book.user.profile_image.present? %>
-            <%= image_tag attachment_url(book.user, :profile_image, :fill, 150, 150, format: "jpg") %> <% else %>   <%= image_tag('no_image.jpg') %>
-            <% end %></td>
+              <td>
+                <% if book.user.profile_image.present? %>
+                  <%= link_to image_tag(attachment_url(book.user, :profile_image, :fill, 150, 150, format: "jpg")), user_path(book.user_id) %>
+                <% else %>
+                  <%= link_to image_tag('no_image.jpg'), user_path(book.user_id) %>
+                <% end %>
+              </td>
               <td><%= link_to book.title, book_path(book.id) %></tb>
               <td><%= book.body %></td>
             </tr>
